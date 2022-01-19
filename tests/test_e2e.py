@@ -1,13 +1,15 @@
 import time
 
-import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from pages.dashboard import DashboardPage
+from pages.login import LoginPage
 
 
 class TestWeb:
     def test_login(self, driver):
-        driver.get('http://localhost:8080/secure/Dashboard.jspa')
+        driver.get('http://localhost:8080/login.jsp')
         driver.maximize_window()
-        time.sleep(10)
+        login_page = LoginPage(driver)
+        login_page.login_form('sebas', 'sebas10')
+        time.sleep(2)
+        dashboard_page = DashboardPage(driver)
+        assert dashboard_page.is_dashboard_present()
